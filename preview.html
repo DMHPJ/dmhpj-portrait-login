@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>前线档案 · 样式预览</title>
-  <link rel="stylesheet" href="./styles/login.css?v=20261012-frontline-2">
+  <title>月林序章 · 样式预览</title>
+  <link rel="stylesheet" href="./styles/login.css?v=20261012-chronicle-1">
   <style>.pl-stage .pl-native-form :disabled{opacity:1!important}</style>
 </head>
 <body class="pl-active">
@@ -18,25 +18,28 @@
     </section>
   </main>
   <script type="module">
-    import {defaults,normalize,SERVER_URL} from './scripts/model.mjs';
+    import {defaults,normalize,SERVER_URL,UI_STYLES} from './scripts/model.mjs';
     import {createScene,updateScene,element} from './scripts/scene.mjs';
     const config=normalize(defaults),root=document.querySelector('#join-game');
-    let style='frontline',selectedId=config.characters[0].id;
+    const requestedStyle=new URLSearchParams(location.search).get('style');
+    let style=UI_STYLES.some(item=>item.id===requestedStyle)?requestedStyle:'chronicle',selectedId=style==='ballad'?'bard':config.characters[0].id;
     const select=id=>{
       selectedId=id;
       for(const character of config.characters)character.uiStyle=style;
       updateScene(root,config,config.characters.find(character=>character.id===selectedId));
+      document.title=`${UI_STYLES.find(item=>item.id===style).label} · 样式预览`;
     };
     createScene(root,config,{onSelect:select});
     const tools=element('nav','pl-tools');tools.setAttribute('aria-label','预览导航');
-    const toggle=element('button','','查看经典样式');toggle.type='button';
-    toggle.addEventListener('click',()=>{
-      style=style==='frontline'?'classic':'frontline';
-      toggle.textContent=style==='frontline'?'查看经典样式':'查看前线档案';
+    const styleSelect=element('select');styleSelect.setAttribute('aria-label','预览风格');
+    for(const item of UI_STYLES){const option=element('option','',item.label);option.value=item.id;styleSelect.append(option);}
+    styleSelect.value=style;
+    styleSelect.addEventListener('change',()=>{
+      style=styleSelect.value;
       select(selectedId);
     });
     const back=element('a','','返回登录页');back.href=new URL('join',SERVER_URL).href;
-    tools.append(toggle,back);root.querySelector('.pl-header').append(tools);
+    tools.append(styleSelect,back);root.querySelector('.pl-header').append(tools);
     select(selectedId);
   </script>
 </body>

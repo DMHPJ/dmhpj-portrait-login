@@ -1,0 +1,83 @@
+/* Moonwood Chronicle: illustrated campaign art, a portrait rail and a shared embark bar. */
+.pl-stage :is(.pl-chronicle-subtitle,.pl-chronicle-sigil){display:none}
+.pl-stage[data-pl-style="chronicle"]{--pl-paper:#f7ead2;--pl-ink:#542522;--pl-red:#ac3d32;--pl-gold:#b68a50;--pl-teal:#217e80;--pl-serif:"PL Orbital Serif","Noto Serif SC","Songti SC",SimSun,serif;background:var(--pl-paper);color:var(--pl-ink);color-scheme:light;font-family:var(--pl-serif)}
+.pl-stage[data-pl-style="chronicle"]::before{background:url('../assets/chronicle-backdrop.png') center/100% 100% no-repeat}
+.pl-stage[data-pl-style="chronicle"] .pl-backdrop{inset:5.5% 18.5% 20.5% 30%;opacity:.35;z-index:0}
+.pl-stage[data-pl-style="chronicle"] .pl-header{left:.7%;right:2.5%;top:0;height:5.5%;border:0;gap:2vw}
+.pl-stage[data-pl-style="chronicle"] .pl-brand{gap:.7vw;padding-right:1vw;background:var(--pl-paper);color:var(--pl-ink);font-family:var(--pl-serif);font-size:1.8vw;font-weight:600;letter-spacing:.15em;white-space:nowrap}
+.pl-stage[data-pl-style="chronicle"] .pl-tools{gap:1.4vw;padding-left:1vw;background:var(--pl-paper);font-family:var(--pl-serif);font-size:1vw;letter-spacing:.07em}
+.pl-stage[data-pl-style="chronicle"] .pl-tools :is(button,a,select){color:var(--pl-ink);font:inherit;min-height:0;padding:.2vw .4vw}
+.pl-stage[data-pl-style="chronicle"] .pl-tools select{max-width:12vw;border-color:#b68a5080;background:var(--pl-paper)}
+.pl-stage[data-pl-style="chronicle"] .pl-tools select option{background:var(--pl-paper);color:var(--pl-ink)}
+.pl-stage[data-pl-style="chronicle"] .pl-tools button{position:fixed;right:9.5%;top:92.8%;font-size:.95vw;letter-spacing:.1em;color:#566665}
+.pl-stage[data-pl-style="chronicle"] .pl-tools :is(button,a):hover{color:var(--pl-teal)}
+.pl-stage[data-pl-style="chronicle"] :is(.pl-sigil,.pl-footer){display:none}
+.pl-stage[data-pl-style="chronicle"] .pl-orbital-sigil{display:block;width:2.2vw;height:2.2vw;color:var(--pl-gold)}
+.pl-stage[data-pl-style="chronicle"] .pl-orbital-sigil svg{width:100%;height:100%;stroke:currentColor;stroke-width:1.4}
+
+.pl-stage[data-pl-style="chronicle"] .pl-eyebrow{width:25%;color:#e5c592;font-family:Georgia,serif;font-size:1.15vw;letter-spacing:.23em}
+.pl-stage[data-pl-style="chronicle"] .pl-name{width:24%;min-height:0;font-family:var(--pl-serif);font-size:7.2vw;font-weight:400;line-height:1.08;letter-spacing:.07em;color:#fff0ce;text-shadow:none}
+.pl-stage[data-pl-style="chronicle"] .pl-name>span{display:block}
+.pl-stage[data-pl-style="chronicle"] .pl-name>span:last-child{text-align:right}
+.pl-stage[data-pl-style="chronicle"] .pl-name .pl-name-separator{display:none}
+.pl-stage[data-pl-style="chronicle"] .pl-tag{display:flex;align-items:center;justify-content:center;gap:.8vw;width:24%;min-height:0;color:#fff0ce;font-family:var(--pl-serif);font-size:2vw;line-height:1.4;letter-spacing:.12em}
+.pl-stage[data-pl-style="chronicle"] .pl-tag::before,.pl-stage[data-pl-style="chronicle"] .pl-tag::after{content:"";flex:1;height:1px;background:#dfb878}
+.pl-stage[data-pl-style="chronicle"] .pl-description{width:23%;min-height:0;color:#fff0ce;font-family:var(--pl-serif);font-size:1.45vw;line-height:1.55;text-align:center;letter-spacing:.04em;text-wrap:balance}
+.pl-stage[data-pl-style="chronicle"] .pl-detail{width:23%;min-height:0;padding-top:.8vw;border-top:1px solid #dfb878;font-family:var(--pl-serif);font-size:1.25vw;line-height:1.5;letter-spacing:.16em;text-align:center;color:#f3d8a5}
+.pl-stage[data-pl-style="chronicle"] .pl-hero{width:55.5%;height:79.5%;mask-image:none;filter:none;transition:none}
+.pl-stage[data-pl-style="chronicle"] .pl-hero[data-pl-strip]{mask-image:linear-gradient(to right,transparent,#000 15%,#000 85%,transparent);background-color:transparent}
+
+/* The rail scrolls independently when a world has more than five characters. */
+.pl-stage[data-pl-style="chronicle"] .pl-roster{display:flex;flex-direction:column;width:16%;height:70%;padding:0}
+.pl-stage[data-pl-style="chronicle"] .pl-roster-heading{display:block;flex:0 0 auto;margin:0 0 .7vw;padding:0 0 .3vw .5vw;border-bottom:1px solid var(--pl-gold);color:var(--pl-ink);font-family:var(--pl-serif);font-size:2vw;font-weight:600;letter-spacing:.12em}
+.pl-stage[data-pl-style="chronicle"] .pl-roster-heading .pl-subtitle{display:none}
+.pl-stage[data-pl-style="chronicle"] .pl-cards{flex:1;min-height:0;display:flex;flex-direction:column;gap:.65vh;padding:.25vw .3vw;overflow-x:hidden;overflow-y:auto;scrollbar-width:thin;scrollbar-color:#b68a5070 transparent;overscroll-behavior:contain}
+.pl-stage[data-pl-style="chronicle"] .pl-card{flex:0 0 calc((100% - 2.6vh)/5);width:100%;min-height:7vh;height:auto;display:grid;grid-template-columns:43% 57%;align-items:center;padding:0;overflow:visible;border:0;border-radius:0;background:none;box-shadow:none;filter:none;transition:color .18s}
+.pl-stage[data-pl-style="chronicle"] .pl-card:hover,.pl-stage[data-pl-style="chronicle"] .pl-card[aria-pressed=true]{transform:none;background:none;border:0;box-shadow:none;filter:none}
+.pl-stage[data-pl-style="chronicle"] .pl-card-art{position:relative;inset:auto;width:100%;height:100%;max-height:11vh;background-color:transparent;filter:saturate(.75);transition:filter .18s}
+.pl-stage[data-pl-style="chronicle"] .pl-card:hover .pl-card-art,.pl-stage[data-pl-style="chronicle"] .pl-card[aria-pressed=true] .pl-card-art{filter:none}
+.pl-stage[data-pl-style="chronicle"] .pl-card-label{position:relative;inset:auto;padding:.5vw .15vw .6vw .55vw;margin-left:.15vw;border-bottom:1px solid var(--pl-gold);background:none}
+.pl-stage[data-pl-style="chronicle"] .pl-card-label strong{color:var(--pl-ink);font-family:var(--pl-serif);font-size:1.08vw;font-weight:600;line-height:1.5;letter-spacing:.01em}
+.pl-stage[data-pl-style="chronicle"] .pl-card-label small{display:none}
+.pl-stage[data-pl-style="chronicle"] .pl-card[aria-pressed=true] .pl-card-label{border-bottom:2px solid var(--pl-teal)}
+.pl-stage[data-pl-style="chronicle"] .pl-card[aria-pressed=true] .pl-card-label strong{color:var(--pl-teal)}
+.pl-stage[data-pl-style="chronicle"] :is(.pl-online,.pl-hidden-character)::after{top:0;right:0;padding:.1vw .3vw;background:var(--pl-paper);color:var(--pl-teal);font-family:sans-serif;font-size:.7vw}
+.pl-stage[data-pl-style="chronicle"] .pl-roster-paging{display:flex;flex:0 0 3.4vh;align-items:center;justify-content:space-between;margin:.7vh .7vw 0;gap:1vw;color:var(--pl-ink);font-size:1.15vw}
+.pl-stage[data-pl-style="chronicle"] .pl-roster-paging button{display:flex;align-items:center;justify-content:center;width:2.3vw;height:3.4vh;min-height:0;padding:.15vw;border:0;background:none;box-shadow:none;color:inherit;cursor:pointer}
+.pl-stage[data-pl-style="chronicle"] .pl-roster-paging button svg{width:1.2vw;height:1.5vw}
+.pl-stage[data-pl-style="chronicle"] .pl-roster-paging button:hover{color:var(--pl-teal)}
+.pl-stage[data-pl-style="chronicle"] .pl-roster-paging button:disabled{opacity:.3;cursor:default}
+.pl-stage[data-pl-style="chronicle"] .pl-empty{color:var(--pl-ink);font-size:1vw;line-height:1.8}
+
+/* Keep Foundry's original fields, labels and submit button in the native form. */
+.pl-stage[data-pl-style="chronicle"] :is(#join-game-form,.pl-native-form){display:grid!important;grid-template-columns:29% 19% 20% 20%;grid-template-rows:auto auto;align-content:center;align-items:end;column-gap:2%;row-gap:0;width:94%!important;height:15.5%;padding:0!important;border:0;border-radius:0;background:none;box-shadow:none;color:var(--pl-ink);font-family:var(--pl-serif)}
+.pl-stage[data-pl-style="chronicle"] :is(#join-game-form,.pl-native-form) h2{grid-column:1;grid-row:1;align-self:center;text-align:center;font-family:var(--pl-serif);font-size:4vw;font-weight:600;line-height:1.2;letter-spacing:.12em}
+.pl-stage[data-pl-style="chronicle"] .pl-chronicle-sigil{display:inline-block;width:4.4vw;height:4.4vw;margin-right:.5vw;vertical-align:-.7vw;color:var(--pl-gold)}
+.pl-stage[data-pl-style="chronicle"] .pl-chronicle-sigil svg{width:100%;height:100%;stroke:currentColor;stroke-width:1.2}
+.pl-stage[data-pl-style="chronicle"] .pl-chronicle-subtitle{display:block;grid-column:1;grid-row:2;margin:.55vw 0 0;text-align:center;font-size:1.18vw;letter-spacing:.12em;line-height:1.7}
+.pl-stage[data-pl-style="chronicle"] .pl-status{grid-column:2/4;grid-row:2;align-self:start;margin:.65vw 0 0;color:#776f60;font-family:var(--pl-serif);font-size:.93vw;line-height:1.5;letter-spacing:.04em}
+.pl-stage[data-pl-style="chronicle"] :is(#join-game-form,.pl-native-form) .form-group{display:block;margin:0;min-width:0;grid-row:1}
+.pl-stage[data-pl-style="chronicle"] :is(#join-game-form,.pl-native-form) .form-group:has(select){grid-column:2}
+.pl-stage[data-pl-style="chronicle"] :is(#join-game-form,.pl-native-form) .form-group:has(input[type="password"]){grid-column:3}
+.pl-stage[data-pl-style="chronicle"] :is(#join-game-form,.pl-native-form) .form-fields{display:block}
+.pl-stage[data-pl-style="chronicle"] :is(#join-game-form,.pl-native-form) .form-group label.icon{display:none}
+.pl-stage[data-pl-style="chronicle"] .pl-ballad-field-label{display:block;margin:0 0 .5vw;color:var(--pl-ink);font-size:1.05vw;line-height:1.2}
+.pl-stage[data-pl-style="chronicle"] :is(#join-game-form,.pl-native-form) :is(input,select){width:100%;height:2.8vw;min-height:0;padding:0 .9vw;border:1px solid #8b8174;border-radius:4px;background:#f6f1e8b0;box-shadow:none;color:#544e43;font-family:var(--pl-serif);font-size:1vw;line-height:1.4}
+.pl-stage[data-pl-style="chronicle"] :is(#join-game-form,.pl-native-form) select option{background:var(--pl-paper);color:var(--pl-ink)}
+.pl-stage[data-pl-style="chronicle"] :is(#join-game-form,.pl-native-form) input::placeholder{color:#807b72;opacity:1}
+.pl-stage[data-pl-style="chronicle"] :is(#join-game-form,.pl-native-form) button{grid-column:4;grid-row:1;align-self:end;width:100%;height:3.8vw;min-height:0;margin:0;padding:0 1vw;border:1px solid #dfb878;outline:2px solid var(--pl-red);outline-offset:3px;border-radius:0;background:var(--pl-red);box-shadow:inset 0 0 0 4px var(--pl-red),inset 0 0 0 5px #dfb87888;color:#fff0ce;font-family:var(--pl-serif);font-size:2vw;font-weight:400;line-height:1.2;letter-spacing:.16em;transition:background .15s}
+.pl-stage[data-pl-style="chronicle"] :is(#join-game-form,.pl-native-form) button:hover{background:#92322b;filter:none}
+.pl-stage[data-pl-style="chronicle"] :is(#join-game-form,.pl-native-form) button i{display:none}
+.pl-stage[data-pl-style="chronicle"] :focus-visible{outline:2px solid var(--pl-teal)!important;outline-offset:3px}
+
+.pl-config[data-pl-style="chronicle"]{background:#f7ead2}
+.pl-config[data-pl-style="chronicle"] .pl-editor-toolbar{height:5.5%;right:2%}
+.pl-config[data-pl-style="chronicle"] :is(.pl-editor-toolbar button,.pl-config-panel button){background:#f7ead2;border-color:#b68a50;color:#542522}
+.pl-config[data-pl-style="chronicle"] .pl-editor-toolbar .pl-publish{background:#ac3d32;color:#fff0ce}
+.pl-config[data-pl-style="chronicle"] .pl-editor-toolbar .pl-save-status{color:#542522}
+.pl-config[data-pl-style="chronicle"] .pl-config-panel{background:#f7ead2fa;color:#542522;border-color:#b68a50;color-scheme:light}
+.pl-config[data-pl-style="chronicle"] .pl-config-panel :is(input,select){background:#fff8eb;color:#542522;border-color:#b8a187}
+.pl-config[data-pl-style="chronicle"] .pl-config-panel :is(.pl-config-note,a){color:#386d69}
+.pl-config[data-pl-style="chronicle"] .pl-editor-help{left:35%;top:6%;background:#f7ead2e8;color:#542522;border-color:#b68a50}
+.pl-config[data-pl-style="chronicle"] .pl-editor-canvas [data-pl-item][contenteditable]{background:#f7ead2f2;color:#542522}
+@media(prefers-reduced-motion:reduce){.pl-stage[data-pl-style="chronicle"] *{transition:none!important;animation:none!important}}

@@ -7,7 +7,7 @@ function loadEditorStyles(){
   if(editorStyles)return editorStyles;
   // Load a matching stylesheet even when the world still holds the old module CSS.
   const link=document.createElement('link');link.rel='stylesheet';
-  link.href=new URL('../styles/settings.css?v=20261012-frontline-2',import.meta.url).href;
+  link.href=new URL('../styles/settings.css?v=20261012-chronicle-1',import.meta.url).href;
   editorStyles=new Promise((resolve,reject)=>{
     link.addEventListener('load',resolve,{once:true});
     link.addEventListener('error',()=>{link.remove();editorStyles=null;reject(new Error('登录页编辑器样式加载失败，请刷新后重试。'));},{once:true});
@@ -182,6 +182,7 @@ class PortraitConfig extends foundry.applications.api.ApplicationV2 {
     this.finishText();this.drag=null;event.preventDefault();
     const source=CHARACTER_ITEMS.includes(key)?this.character:this.draft;
     this.editingText={node,key,original:source[key]};
+    node.textContent=source[key];
     node.contentEditable='plaintext-only';node.setAttribute('role','textbox');node.setAttribute('aria-label',ITEM_LABELS[key]);node.setAttribute('aria-multiline',String(['description','detail'].includes(key)));
     this.refreshResizeFrame();
     node.focus({preventScroll:true});

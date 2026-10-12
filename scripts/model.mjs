@@ -4,7 +4,7 @@ export const SERVER_URL = new URL('../../', MODULE_URL);
 export const CHARACTER_ITEMS = ['name','tag','hero','description','detail'];
 export const GLOBAL_ITEMS = ['eyebrow','login','roster'];
 export const DEFAULT_UI_STYLE = 'classic';
-export const UI_STYLES = [{id:DEFAULT_UI_STYLE,label:'经典（默认）'},{id:'frontline',label:'前线档案'}];
+export const UI_STYLES = [{id:DEFAULT_UI_STYLE,label:'经典（默认）'},{id:'frontline',label:'前线档案'},{id:'orbital',label:'星轨剧场'},{id:'ballad',label:'绯歌序章'},{id:'chronicle',label:'月林序章'}];
 export const DEFAULT_LAYOUT = {
   name:{x:5,y:28,scale:1},tag:{x:5,y:40,scale:1},hero:{x:38,y:12,scale:1},
   description:{x:5,y:47,scale:1},detail:{x:5,y:63,scale:1},
@@ -16,6 +16,21 @@ export const STYLE_LAYOUTS = {
     name:{x:13.4,y:28.8,scale:1},tag:{x:13.4,y:42.8,scale:1},hero:{x:37.5,y:6,scale:1},
     description:{x:13.4,y:50,scale:1},detail:{x:13.4,y:56.5,scale:1},
     eyebrow:{x:13.4,y:26.6,scale:1},login:{x:74.6,y:42.5,scale:1},roster:{x:1.35,y:14.3,scale:1}
+  },
+  orbital:{
+    name:{x:70.9,y:18.8,scale:1},tag:{x:70.9,y:29.2,scale:1},hero:{x:16,y:4,scale:1},
+    description:{x:70.9,y:36.2,scale:1},detail:{x:70.9,y:46.2,scale:1},
+    eyebrow:{x:2.7,y:93.3,scale:1},login:{x:70.9,y:52.3,scale:1},roster:{x:2.5,y:14.3,scale:1}
+  },
+  ballad:{
+    name:{x:71.4,y:9.5,scale:1},tag:{x:71.4,y:21,scale:1},hero:{x:22,y:0,scale:1},
+    description:{x:71.4,y:28.5,scale:1},detail:{x:71.4,y:40.5,scale:1},
+    eyebrow:{x:6,y:16,scale:1},login:{x:71.4,y:49.8,scale:1},roster:{x:6,y:20,scale:1}
+  },
+  chronicle:{
+    name:{x:3.5,y:15.5,scale:1},tag:{x:4,y:43.5,scale:1},hero:{x:26,y:0,scale:1},
+    description:{x:5,y:50,scale:1},detail:{x:5,y:60,scale:1},
+    eyebrow:{x:3.5,y:9.5,scale:1},login:{x:3,y:81,scale:1},roster:{x:82.5,y:8.5,scale:1}
   }
 };
 function normalizeLayout(source,keys,preset=DEFAULT_LAYOUT){
@@ -81,13 +96,16 @@ export function normalize(source={}) {
 }
 export function paintArt(el,c,{hero=false,style=DEFAULT_UI_STYLE}={}) {
   const value=hero?(c.hero||c.portrait):c.portrait;
-  // Only the bundled sample gets a matching high-resolution Frontline illustration.
-  const sample=style==='frontline'&&value==='@/assets/party.png'&&c.strip===0;
-  const url=assetURL(sample?'@/assets/frontline-ranger.png':value);el.style.backgroundImage=url?`url(${JSON.stringify(url)})`:'none';
+  // Style-specific illustrations only replace the bundled sample, never custom art.
+  const sample=value==='@/assets/party.png'&&((['frontline','orbital','ballad','chronicle'].includes(style)&&c.strip===0)||(['ballad','chronicle'].includes(style)&&c.strip===4));
+  const sampleArt=['ballad','chronicle'].includes(style)&&c.strip===4?'@/assets/ballad-bard.png':style==='chronicle'?'@/assets/chronicle-ranger.png':hero&&['orbital','ballad'].includes(style)?'@/assets/orbital-ranger.png':'@/assets/frontline-ranger.png';
+  const url=assetURL(sample?sampleArt:value);el.style.backgroundImage=url?`url(${JSON.stringify(url)})`:'none';
   const strip=!sample&&c.strip!==null && !(hero&&c.hero);
-  const closePortrait=strip&&!hero&&style==='frontline';
+  const closePortrait=strip&&!hero&&['frontline','orbital','ballad','chronicle'].includes(style);
   el.toggleAttribute('data-pl-strip',strip);
-  el.style.backgroundSize=closePortrait?'800% auto':strip?'500% auto':(sample&&!hero?'180% auto':hero&&style!=='frontline'?'contain':'cover');
-  el.style.backgroundPosition=closePortrait?`${(c.strip*160+30)/7}% 3%`:strip?`${c.strip*25}% ${hero?0:5}%`:sample?`${hero?50:52}% ${c.position-50}%`:`50% ${c.position}%`;
+  el.style.backgroundSize=closePortrait?(style==='orbital'?'1400% auto':'800% auto'):strip?'500% auto':(sample&&!hero?'180% auto':hero&&style!=='frontline'?'contain':'cover');
+  el.style.backgroundPosition=closePortrait?(style==='orbital'?`${(c.strip*280+90)/13}% ${c.strip===2?11:8}%`:`${(c.strip*160+30)/7}% 3%`):strip?`${c.strip*25}% ${hero?0:5}%`:sample?`${hero?50:52}% ${hero&&['orbital','ballad','chronicle'].includes(style)?c.position:c.position-50}%`:`50% ${c.position}%`;
+  if(sample&&hero&&style==='chronicle'){el.style.backgroundSize=c.strip===0?'100% auto':'110% auto';el.style.backgroundPosition='50% 0%';}
+  if(closePortrait&&style==='chronicle')el.style.backgroundPosition=`${(c.strip*160+30)/7}% ${[10,8,13,11,9][c.strip]}%`;
   el.classList.toggle('pl-no-art',!url);
 }
