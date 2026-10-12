@@ -1,0 +1,26 @@
+Asset: chronicle-backdrop.png
+Mode: Built-in image_gen
+Reference: D:/What's more/Downloads/ChatGPT 图像 2026年10月12日 14_33_55.png
+
+Use case: precise-object-edit.
+Asset type: high-quality raster background plate for a fantasy game promotional character-selection login screen.
+Input image 1 is the exact composition and illustration style reference/edit target. Create a clean background-only plate matching its 16:9 landscape composition closely, ideally 1672 x 941 (or 2048 x 1152). Keep the original ornate fantasy illustration, restrained gold line work, parchment texture, crimson, ivory cream and muted teal palette.
+Remove ALL characters and ALL UI content: no central elf, no hair, no body, no bow, no arrows or quiver, no small portrait thumbnails, no words or numbers in any language, no logos, no compass icons, no headings, no navigation arrows, no dividers intended as text underlines, no buttons, no input boxes or form outlines. Reconstruct the decorative environment seamlessly behind the removed character.
+Precise layout:
+- Top y=0 to 5.5 percent: blank ivory parchment header with only a very thin muted gold bottom rule. No text, icons or decoration in the central blank.
+- Main y=5.5 to 79.5 percent. LEFT x=0 to about 35 percent: deep warm crimson ornamental damask panel; mostly calm empty red space for overlaid copy, diagonal/slanted right edge with a fine antique-gold border. At bottom of red panel retain the elaborate dark red-black pine forest, tiny red gothic castle on rocky cliffs and round pale golden moon, like the reference; keep its visual height restrained so above it stays usable for headline.
+- Main CENTER x=35 to 81 percent: large teal circular botanical window framed by a delicate broad antique gold ring, leafy branches with elegant creamy white small flowers along its perimeter, clear atmospheric teal center. Fill behind the removed elf with coherent botanical circular motif and teal illumination. At far right edge of the central scene retain the distant desaturated pale blue-gray gothic castle, softly fading into ivory.
+- Main RIGHT x=81 to100 percent: completely blank ivory parchment region, no miniature portraits, no text, no lines, no symbols, ready for a live HTML character list.
+- BOTTOM y=79.5 to100 percent: completely blank full-width ivory parchment band, with thin gold top/bottom border, subtle teal floral corner ornaments at the four corners of this bottom band, and tiny gold diamond center markers on top and bottom rules, matching reference. The whole interior must be clear: no forms, buttons, text, icons, compass or other elements.
+Crisp detailed fantasy book illustration, coherent realistic painterly decoration, restrained grain, high quality production asset. Preserve exact major color-block placement and 16:9 composition. Absolutely no people, faces, limbs, text, numbers, letters, watermarks or interface controls anywhere.
+
+Asset: chronicle-ranger.png
+Mode: Built-in image_gen, transparent_background=true
+Reference: D:/What's more/Downloads/ChatGPT 图像 2026年10月12日 14_33_55.png
+
+Use case: background-extraction.
+Asset type: a large transparent character portrait sprite for a fantasy-game promotional character-selection hero.
+Input image is the reference and edit target. Extract ONLY its large central white-haired elf ranger into a TRUE TRANSPARENT PNG with real alpha. Preserve her beautiful face, gentle expression, pointed elf ears, three-quarter backwards glance, long flowing silvery-white hair and braids, small green leaf hair ornaments, dark forest-green cloak with elaborate antique-gold botanical embroidery, leather armor, engraved gold bracer, quiver and the elegant long vertical bow along her right side.
+Keep the original refined detailed painted fantasy illustration look, delicate cream highlights, warm realistic skin, fine hair strands and intricate costume. Preserve character identity and pose as faithfully as possible.
+Composition: 1024 x 1024 square canvas, crop from a little above her head down to her waist. This is a dominant large upper-body character portrait, NOT a small full-body figure. Face prominent in upper center-right, character fills most of canvas height and width, cloak flowing toward lower-left, bow upright on right, hair wisps moving left and right. Full head must fit with about 3 to 5 percent transparent top clearance. Crop naturally through waist at bottom edge. There must be no legs or feet. Retain the readable silhouette.
+Remove ALL background, flowers, botanical circle, teal window, red panel, castles, forest, parchment, UI, words, character thumbnails and ornaments that do not belong to her own costume. ALL space between hair wisps and bow and around body must be true transparent alpha, with soft antialiased edges; no painted checkerboard, no shadow floor, no solid color, no vignette, no text or watermark.

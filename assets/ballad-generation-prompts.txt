@@ -1,0 +1,12 @@
+Mode: built-in image_gen
+Target asset: assets/ballad-bard.png
+Source: D:/What's more/Downloads/ChatGPT 图像 2026年10月12日 14_33_45.png
+
+Use case: background-extraction
+Asset type: transparent character key art for a fantasy game character selection website.
+Input image: Image 1 is the edit target. Extract only the central young adult red-haired female bard as an independent transparent character illustration.
+Primary request: Faithfully preserve this same woman's face, warm friendly expression, wavy copper-red hair, body proportions, pose, red traveling cloak with round brass clasp, loose cream blouse with laced neckline and gathered sleeves, teal waist sash, brown belt and leather pouch, dark brown trousers, and wooden lute held upright at her right side. Preserve the exact delicate brown ink linework and warm soft watercolor/anime illustration style.
+Composition/framing: portrait format, centered isolated character, from complete hair tips at the top down to upper knees, extending the lower clothing only as needed for a natural clean crop. Keep all the hair silhouette, the flowing cloak silhouette, both hands and the entire lute intact, with small transparent margins left, right and top. Do not crop hair, hands, cloak sides or lute.
+Scene/backdrop: genuinely transparent background (RGBA alpha), nothing behind or around the subject.
+Constraints: remove every piece of lettering, branding, buttons, selectors, ornamental borders, panels and background shapes. No text, UI, frame, watermarks, extra objects or extra characters. Do not introduce any cast shadow outside the character. Preserve character identity, clothing, colors, expression and pose from the reference; only isolate and restore any cropped silhouette needed for the standalone asset.
+

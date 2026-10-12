@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1672 941" preserveAspectRatio="none" fill="none">
+  <defs>
+    <pattern id="trim" width="48" height="30" patternUnits="userSpaceOnUse">
+      <path d="m12 2 3 8 7 4-7 4-3 8-3-8-7-4 7-4Z" fill="#dcb782"/>
+      <path d="m36 8 2 5 4 2-4 2-2 5-2-5-4-2 4-2Z" fill="#dcb782"/>
+    </pattern>
+  </defs>
+  <path d="M0 0h648C575 174 550 359 584 569c15 124 35 245 74 372H0Z" fill="#cd5052"/>
+  <path d="M0 873q836 65 1672 0v68H0Z" fill="#cd5052"/>
+  <path d="M0 873q836 65 1672 0" stroke="#d6ad79" stroke-width="6"/>
+  <path d="M0 904h1672v29H0Z" fill="url(#trim)"/>
+</svg>
