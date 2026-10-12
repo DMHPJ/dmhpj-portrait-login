@@ -3,6 +3,7 @@ export const MODULE_URL = new URL('../', import.meta.url);
 export const SERVER_URL = new URL('../../', MODULE_URL);
 export const CHARACTER_ITEMS = ['name','tag','hero','description','detail'];
 export const GLOBAL_ITEMS = ['eyebrow','login','roster'];
+const LAYOUT_ITEMS = [...CHARACTER_ITEMS,...GLOBAL_ITEMS];
 export const DEFAULT_UI_STYLE = 'classic';
 export const UI_STYLES = [{id:DEFAULT_UI_STYLE,label:'经典（默认）'},{id:'frontline',label:'前线档案'},{id:'orbital',label:'星轨剧场'},{id:'ballad',label:'绯歌序章'},{id:'chronicle',label:'月林序章'}];
 export const DEFAULT_LAYOUT = {
@@ -43,22 +44,27 @@ function normalizeLayout(source,keys,preset=DEFAULT_LAYOUT){
     return [key,layout];
   }));
 }
-function normalizeStyleLayouts(source,keys){
+function normalizeStyleLayouts(source,keys,inherited){
   const layouts={};
   for(const {id} of UI_STYLES){
     if(id===DEFAULT_UI_STYLE)continue;
-    const saved=source?.styleLayouts?.[id];
+    const saved={...inherited?.styleLayouts?.[id],...source?.styleLayouts?.[id]};
     const present=keys.filter(key=>saved?.[key]&&typeof saved[key]==='object'&&!Array.isArray(saved[key]));
     if(present.length)layouts[id]=normalizeLayout(saved,present,STYLE_LAYOUTS[id]);
   }
   return Object.keys(layouts).length?{styleLayouts:layouts}:{};
 }
 export function getSceneLayout(config,character,key,{editable=false}={}){
-  const style=character?.uiStyle??DEFAULT_UI_STYLE,owner=CHARACTER_ITEMS.includes(key)?character:config;
-  const fallback=(STYLE_LAYOUTS[style]??DEFAULT_LAYOUT)[key];
+  const style=UI_STYLES.some(item=>item.id===character?.uiStyle)?character.uiStyle:DEFAULT_UI_STYLE;
+  const owner=character??(GLOBAL_ITEMS.includes(key)?config:null);
+  const legacy=GLOBAL_ITEMS.includes(key)?(style===DEFAULT_UI_STYLE?config.layout:config.styleLayouts?.[style])?.[key]:null;
+  const fallback=legacy??STYLE_LAYOUTS[style][key];
   if(!owner)return fallback;
-  if(style===DEFAULT_UI_STYLE||!STYLE_LAYOUTS[style])return owner.layout?.[key]??fallback;
-  // Each style keeps its own positions; simply switching styles does not write layout data.
+  // Legacy page layouts seed each character; edits must never mutate that shared fallback.
+  if(style===DEFAULT_UI_STYLE){
+    if(editable){owner.layout??={};owner.layout[key]??={...fallback};}
+    return owner.layout?.[key]??fallback;
+  }
   if(editable){
     owner.styleLayouts??={};owner.styleLayouts[style]??={};owner.styleLayouts[style][key]??={...fallback};
   }
@@ -93,7 +99,7 @@ export function normalize(source={}) {
   const hex=(v,fallback)=>/^#[\da-f]{6}$/i.test(v)?v:fallback;
   const c={title:text(source.title??defaults.title,80),subtitle:text(source.subtitle??defaults.subtitle,250),eyebrow:text(source.eyebrow??defaults.eyebrow,80),background:text(source.background,1000),accent:hex(source.accent,defaults.accent),cardHeight:Math.min(260,Math.max(100,Number(source.cardHeight)||158)),layout:normalizeLayout(source.layout,GLOBAL_ITEMS),...normalizeStyleLayouts(source,GLOBAL_ITEMS),characters:[]};
   const rows=Array.isArray(source.characters)?source.characters:defaults.characters;
-  c.characters=rows.slice(0,60).map((x,i)=>({id:text(x.id||`character-${i+1}`,80),name:text(x.name||'未命名角色',80),tag:text(x.tag,80),description:text(x.description,1500),detail:text(x.detail,160),userId:text(x.userId,80),portrait:text(x.portrait,1000),hero:text(x.hero,1000),background:text(x.background,1000),uiStyle:UI_STYLES.some(style=>style.id===x.uiStyle)?x.uiStyle:DEFAULT_UI_STYLE,color:hex(x.color,c.accent),strip:Number.isInteger(x.strip)&&x.strip>=0&&x.strip<=4?x.strip:null,position:Math.min(100,Math.max(0,Number.isFinite(Number(x.position)) ? Number(x.position) : 50)),enabled:x.enabled!==false,layout:normalizeLayout(x.layout,CHARACTER_ITEMS),...normalizeStyleLayouts(x,CHARACTER_ITEMS)}));
+  c.characters=rows.slice(0,60).map((x,i)=>({id:text(x.id||`character-${i+1}`,80),name:text(x.name||'未命名角色',80),tag:text(x.tag,80),description:text(x.description,1500),detail:text(x.detail,160),userId:text(x.userId,80),portrait:text(x.portrait,1000),hero:text(x.hero,1000),background:text(x.background,1000),uiStyle:UI_STYLES.some(style=>style.id===x.uiStyle)?x.uiStyle:DEFAULT_UI_STYLE,color:hex(x.color,c.accent),strip:Number.isInteger(x.strip)&&x.strip>=0&&x.strip<=4?x.strip:null,position:Math.min(100,Math.max(0,Number.isFinite(Number(x.position)) ? Number(x.position) : 50)),enabled:x.enabled!==false,layout:normalizeLayout({...c.layout,...x.layout},LAYOUT_ITEMS),...normalizeStyleLayouts(x,LAYOUT_ITEMS,c)}));
   return c;
 }
 export function paintArt(el,c,{hero=false,style=DEFAULT_UI_STYLE}={}) {

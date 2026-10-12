@@ -39,7 +39,7 @@ class PortraitConfig extends foundry.applications.api.ApplicationV2 {
     const image=(label,key,value,scope='field')=>`<label>${label}<span class="pl-image-field"><input data-${scope}="${key}" value="${escape(value)}"><button type="button" data-command="browse" data-key="${key}" data-scope="${scope}" title="浏览${label}" aria-label="浏览${label}">📁</button></span></label>`;
     const users=game.users.filter(u=>u.role>0);
     const root=document.createElement('div');root.className='pl-editor';
-    root.innerHTML=`<div class="pl-editor-canvas"></div><div class="pl-editor-toolbar"><span class="pl-save-status" role="status"></span><button type="button" data-command="snap-grid" aria-pressed="${this.snapToGrid}" title="拖动时按 10px（半格）对齐">网格吸附：${this.snapToGrid?'开':'关'}</button><button type="button" data-command="panel" aria-expanded="${this.panelOpen}" aria-controls="pl-config-panel">角色与页面</button><button type="submit" class="pl-publish">保存并发布</button><button type="button" data-command="close">关闭</button></div><p class="pl-editor-help">拖动调整位置 · 拖动控点调整宽高 · Ctrl + 滚轮缩放 · 双击文字编辑</p><aside id="pl-config-panel" class="pl-config-panel" ${this.panelOpen?'':'hidden'} aria-label="角色与页面设置"><div class="pl-panel-heading"><strong>角色与页面</strong><button type="button" data-command="panel" aria-label="收起设置">✕</button></div><label>当前角色<select data-character-select>${c.characters.map(row=>`<option value="${escape(row.id)}" ${row.id===ch?.id?'selected':''}>${escape(row.name)}${row.enabled?'':'（已隐藏）'}</option>`).join('')}</select></label><div class="pl-config-actions"><button type="button" data-command="add">＋ 新增角色</button><button type="button" data-command="from-users">导入玩家已分配角色</button></div>${ch?`<div class="pl-fields-grid"><label>引用其他角色布局<select data-layout-source ${sources.length?'':'disabled'}><option value="">${sources.length?'选择来源角色':'暂无其他角色'}</option>${sources.map(row=>`<option value="${escape(row.id)}" ${row.id===this.layoutSourceId?'selected':''}>${escape(row.name)}${row.enabled?'':'（已隐藏）'}</option>`).join('')}</select></label><button type="button" data-command="copy-layout" ${this.layoutSourceId?'':'disabled'}>应用布局到当前角色</button></div><p class="pl-config-note">复制姓名、称号、立绘、介绍和特征文字的位置、尺寸与缩放，引用后可独立调整。</p><div class="pl-row-title"><label class="pl-check"><input type="checkbox" data-field="enabled" ${ch.enabled?'checked':''}>显示角色</label><button type="button" data-command="up" title="向前">↑</button><button type="button" data-command="down" title="向后">↓</button><button type="button" data-command="remove">删除</button></div><p class="pl-config-note">姓名、称号、介绍和特征文字可在页面上双击修改。空白文字也可双击填写。介绍与特征文字按 Enter 换行，Ctrl + Enter 完成。</p><div class="pl-fields-grid"><label>界面风格<select data-field="uiStyle">${UI_STYLES.map(style=>`<option value="${escape(style.id)}" ${style.id===ch.uiStyle?'selected':''}>${escape(style.label)}</option>`).join('')}</select></label><label>绑定登录账户<select data-field="userId"><option value="">不绑定，玩家手动选账户</option>${users.map(u=>`<option value="${escape(u.id)}" ${u.id===ch.userId?'selected':''}>${escape(u.name)}</option>`).join('')}</select></label>${field('角色强调色','color',ch.color,'color','field')}${image('角色卡图片','portrait',ch.portrait)}${image('大立绘（留空使用角色卡图片）','hero',ch.hero)}${image('角色专属背景','background',ch.background)}<label>示例图分栏<select data-field="strip"><option value="-1" ${ch.strip===null?'selected':''}>自定义图片（不分栏）</option>${[0,1,2,3,4].map(n=>`<option value="${n}" ${ch.strip===n?'selected':''}>示例角色 ${n+1}</option>`).join('')}</select></label><label>图片垂直位置<input type="range" min="0" max="100" data-field="position" value="${ch.position}"></label></div><button type="button" data-command="reset-character">重置当前角色布局</button>`:''}<details><summary>页面设置</summary><div class="pl-fields-grid">${field('页面标题','title',c.title)}${field('上方标语','eyebrow',c.eyebrow)}${field('副标题','subtitle',c.subtitle)}${image('全局背景','background',c.background,'global')}${field('主题强调色','accent',c.accent,'color')}${field('角色卡高度（100–260）','cardHeight',c.cardHeight,'number')}</div><button type="button" data-command="reset-global">重置页面元素布局</button></details><div class="pl-config-actions"><button type="button" data-command="export">导出配置</button><button type="button" data-command="import">导入配置</button></div><p class="pl-config-note">发布后刷新登录页即可查看。这里填写的文字、图片和隐藏角色均会公开。</p><a href="${new URL('join',SERVER_URL).href}" target="_blank" rel="noopener">打开登录页 ↗</a></aside>`;
+    root.innerHTML=`<div class="pl-editor-canvas"></div><div class="pl-editor-toolbar"><span class="pl-save-status" role="status"></span><button type="button" data-command="snap-grid" aria-pressed="${this.snapToGrid}" title="拖动时按 10px（半格）对齐">网格吸附：${this.snapToGrid?'开':'关'}</button><button type="button" data-command="panel" aria-expanded="${this.panelOpen}" aria-controls="pl-config-panel">角色与页面</button><button type="submit" class="pl-publish">保存并发布</button><button type="button" data-command="close">关闭</button></div><p class="pl-editor-help">拖动调整位置 · 双击显示控点，拖动调整宽高 · Ctrl + 滚轮缩放 · 双击文字编辑</p><aside id="pl-config-panel" class="pl-config-panel" ${this.panelOpen?'':'hidden'} aria-label="角色与页面设置"><div class="pl-panel-heading"><strong>角色与页面</strong><button type="button" data-command="panel" aria-label="收起设置">✕</button></div><label>当前角色<select data-character-select>${c.characters.map(row=>`<option value="${escape(row.id)}" ${row.id===ch?.id?'selected':''}>${escape(row.name)}${row.enabled?'':'（已隐藏）'}</option>`).join('')}</select></label><div class="pl-config-actions"><button type="button" data-command="add">＋ 新增角色</button><button type="button" data-command="from-users">导入玩家已分配角色</button></div>${ch?`<div class="pl-fields-grid"><label>引用其他角色布局<select data-layout-source ${sources.length?'':'disabled'}><option value="">${sources.length?'选择来源角色':'暂无其他角色'}</option>${sources.map(row=>`<option value="${escape(row.id)}" ${row.id===this.layoutSourceId?'selected':''}>${escape(row.name)}${row.enabled?'':'（已隐藏）'}</option>`).join('')}</select></label><button type="button" data-command="copy-layout" ${this.layoutSourceId?'':'disabled'}>应用布局到当前角色</button></div><p class="pl-config-note">复制姓名、称号、立绘、介绍和特征文字的位置、尺寸与缩放，引用后可独立调整。</p><div class="pl-row-title"><label class="pl-check"><input type="checkbox" data-field="enabled" ${ch.enabled?'checked':''}>显示角色</label><button type="button" data-command="up" title="向前">↑</button><button type="button" data-command="down" title="向后">↓</button><button type="button" data-command="remove">删除</button></div><p class="pl-config-note">姓名、称号、介绍和特征文字可在页面上双击修改。空白文字也可双击填写。介绍与特征文字按 Enter 换行，Ctrl + Enter 完成。</p><div class="pl-fields-grid"><label>界面风格<select data-field="uiStyle">${UI_STYLES.map(style=>`<option value="${escape(style.id)}" ${style.id===ch.uiStyle?'selected':''}>${escape(style.label)}</option>`).join('')}</select></label><label>绑定登录账户<select data-field="userId"><option value="">不绑定，玩家手动选账户</option>${users.map(u=>`<option value="${escape(u.id)}" ${u.id===ch.userId?'selected':''}>${escape(u.name)}</option>`).join('')}</select></label>${field('角色强调色','color',ch.color,'color','field')}${image('角色卡图片','portrait',ch.portrait)}${image('大立绘（留空使用角色卡图片）','hero',ch.hero)}${image('角色专属背景','background',ch.background)}<label>示例图分栏<select data-field="strip"><option value="-1" ${ch.strip===null?'selected':''}>自定义图片（不分栏）</option>${[0,1,2,3,4].map(n=>`<option value="${n}" ${ch.strip===n?'selected':''}>示例角色 ${n+1}</option>`).join('')}</select></label><label>图片垂直位置<input type="range" min="0" max="100" data-field="position" value="${ch.position}"></label></div><button type="button" data-command="reset-character">重置当前角色布局</button>`:''}<details><summary>页面设置</summary><div class="pl-fields-grid">${field('页面标题','title',c.title)}${field('上方标语','eyebrow',c.eyebrow)}${field('副标题','subtitle',c.subtitle)}${image('全局背景','background',c.background,'global')}${field('主题强调色','accent',c.accent,'color')}${field('角色卡高度（100–260）','cardHeight',c.cardHeight,'number')}</div><button type="button" data-command="reset-global">${ch?'重置当前角色的页面元素布局':'重置页面元素布局'}</button></details><div class="pl-config-actions"><button type="button" data-command="export">导出配置</button><button type="button" data-command="import">导入配置</button></div><p class="pl-config-note">发布后刷新登录页即可查看。这里填写的文字、图片和隐藏角色均会公开。</p><a href="${new URL('join',SERVER_URL).href}" target="_blank" rel="noopener">打开登录页 ↗</a></aside>`;
     const canvas=root.querySelector('.pl-editor-canvas');
     canvas.style.setProperty('--pl-grid-size',`${GRID_SIZE}px`);
     createScene(canvas,c,{editing:true,onSelect:id=>this.selectCharacter(id)});
@@ -54,7 +54,7 @@ class PortraitConfig extends foundry.applications.api.ApplicationV2 {
   _replaceHTML(result,content){content.replaceChildren(result);}
   _onRender(context,options){
     super._onRender(context,options);this.listenerAbort?.abort();this.listenerAbort=new AbortController();
-    this.canvas=this.element.querySelector('.pl-editor-canvas');this.drag=null;this.editingText=null;this.suppressClick=false;
+    this.canvas=this.element.querySelector('.pl-editor-canvas');this.drag=null;this.editingText=null;this.resizeKey=null;this.suppressClick=false;
     this.element.setAttribute('role','dialog');this.element.setAttribute('aria-modal','true');this.element.setAttribute('aria-label','登录页编辑器');
     const listen=(node,type,handler,extra={})=>node.addEventListener(type,handler,{signal:this.listenerAbort.signal,...extra});
     listen(this.element,'click',event=>this.command(event));
@@ -68,10 +68,6 @@ class PortraitConfig extends foundry.applications.api.ApplicationV2 {
       if(event.target.matches('[data-layout-source]')){this.layoutSourceId=event.target.value;this.element.querySelector('[data-command="copy-layout"]').disabled=!this.layoutSourceId;}
     });
     listen(this.canvas,'pointerdown',event=>this.startDrag(event));
-    listen(this.canvas,'pointerover',event=>{
-      if(this.drag||this.editingText)return;
-      const node=event.target.closest('.pl-editable');if(node){this.resizeKey=node.dataset.plItem;this.refreshResizeFrame();}
-    });
     listen(window,'resize',()=>this.refreshResizeFrame());
     listen(this.canvas,'pointermove',event=>this.moveDrag(event));
     listen(this.canvas,'pointerup',event=>this.endDrag(event));
@@ -80,7 +76,10 @@ class PortraitConfig extends foundry.applications.api.ApplicationV2 {
     listen(this.canvas,'click',event=>{if(this.suppressClick){event.preventDefault();event.stopImmediatePropagation();this.suppressClick=false;}},{capture:true});
     listen(this.canvas,'dragstart',event=>event.preventDefault());
     listen(this.canvas,'wheel',event=>this.resizeItem(event),{passive:false});
-    listen(this.canvas,'dblclick',event=>this.startText(event));
+    listen(this.canvas,'dblclick',event=>{
+      const node=event.target.closest('.pl-editable');if(!node||event.target.closest('[data-resize]'))return;
+      this.resizeKey=node.dataset.plItem;this.startText(event);this.refreshResizeFrame();
+    });
     listen(this.element,'keydown',event=>this.keydown(event),{capture:true});
     this.refreshScene();
     const selected=this.canvas.querySelector('.pl-card[aria-pressed="true"]');revealCard(selected);
@@ -92,7 +91,7 @@ class PortraitConfig extends foundry.applications.api.ApplicationV2 {
     for(const node of this.canvas.querySelectorAll('[data-pl-item]')){
       const key=node.dataset.plItem,editable=Boolean(this.character)||!CHARACTER_ITEMS.includes(key);
       node.classList.toggle('pl-editable',editable);node.dataset.plLabel=ITEM_LABELS[key];
-      node.title=editable?`${ITEM_LABELS[key]}：拖动调整位置，Ctrl + 滚轮缩放${TEXT_LIMITS[key]?'，双击编辑':''}`:'';
+      node.title=editable?`${ITEM_LABELS[key]}：拖动调整位置，Ctrl + 滚轮缩放，双击显示控点${TEXT_LIMITS[key]?'并编辑文字':''}`:'';
       if(TEXT_LIMITS[key])node.dataset.placeholder=`双击填写${ITEM_LABELS[key]}`;
     }
     const account=this.canvas.querySelector('.pl-native-form select');account.value=this.character?.userId??'';
@@ -106,7 +105,7 @@ class PortraitConfig extends foundry.applications.api.ApplicationV2 {
   refreshResizeFrame(){
     const frame=this.canvas?.querySelector('.pl-resize-frame');if(!frame)return;
     const node=this.canvas.querySelector(`[data-pl-item="${this.resizeKey}"]`);
-    frame.hidden=!node?.classList.contains('pl-editable')||Boolean(this.editingText);if(frame.hidden)return;
+    frame.hidden=!node?.classList.contains('pl-editable');if(frame.hidden)return;
     const rect=node.getBoundingClientRect(),bounds=this.canvas.getBoundingClientRect();
     Object.assign(frame.style,{left:`${rect.left-bounds.left}px`,top:`${rect.top-bounds.top}px`,width:`${rect.width}px`,height:`${rect.height}px`});
     // Keep the controls reachable even when the container crosses the canvas edge.
@@ -128,11 +127,12 @@ class PortraitConfig extends foundry.applications.api.ApplicationV2 {
     return layout;
   }
   startDrag(event){
-    if(event.button!==0||!event.isPrimary||this.editingText)return;
+    if(event.button!==0||!event.isPrimary)return;
     const handle=event.target.closest('[data-resize]');
+    if(handle)this.finishText();
+    if(this.editingText)return;
     const node=handle?this.canvas.querySelector(`[data-pl-item="${this.resizeKey}"]`):event.target.closest('.pl-editable');if(!node)return;
     if(handle)event.preventDefault();
-    this.resizeKey=node.dataset.plItem;this.refreshResizeFrame();
     const bounds=this.canvas.getBoundingClientRect();
     this.drag={node,capture:handle??node,resize:handle?.dataset.resize,rect:node.getBoundingClientRect(),key:node.dataset.plItem,id:event.pointerId,x:event.clientX,y:event.clientY,bounds,initial:{...getSceneLayout(this.draft,this.character,node.dataset.plItem)},moved:false};
   }
@@ -182,7 +182,7 @@ class PortraitConfig extends foundry.applications.api.ApplicationV2 {
     const delta=event.deltaY*(event.deltaMode===1?16:event.deltaMode===2?this.canvas.clientHeight:1);
     layout.scale=Math.min(3,Math.max(.25,layout.scale*Math.exp(-Math.max(-200,Math.min(200,delta))*.002)));
     applyLayout(node,layout);
-    this.resizeKey=node.dataset.plItem;this.refreshResizeFrame();
+    this.refreshResizeFrame();
   }
   startText(event){
     const node=event.target.closest('[data-pl-item]'),key=node?.dataset.plItem;

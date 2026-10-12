@@ -54,7 +54,7 @@
 
 - 配置入口统一调用 `normalize()`。配置结构发生变化时检查默认数据、编辑器读写、导入导出、发布和登录渲染，避免字段只在某一端生效。
 - 默认示例同时存在于 `model.mjs` 的 `defaults` 和根目录 `config.json`，均保留 `classic`。有意修改共同默认内容时同步两处。静态 `preview.html` 默认展示月林序章的游侠，通过 `style` 查询参数或风格下拉框对比五种风格，不修改世界配置。
-- 角色 `uiStyle` 支持 `classic`（默认）、`frontline`、`orbital`（星轨剧场）、`ballad`（绯歌序章）和 `chronicle`（月林序章）；缺失或未知值回退至 `classic`。经典风格保留原 `layout`：全局 `eyebrow/login/roster` 为共享布局，角色 `name/tag/hero/description/detail` 为独立布局。前线档案、星轨剧场、绯歌序章与月林序章分别使用全局与角色的可选 `styleLayouts.frontline`、`styleLayouts.orbital`、`styleLayouts.ballad`、`styleLayouts.chronicle`，未设置的项读取各自 `STYLE_LAYOUTS` 预设，仅实际修改、引用或重置布局时写入。切换风格不得覆盖任何风格的布局；重置只作用于当前风格；引用把来源角色当前风格布局复制到目标角色当前风格，不切换目标 `uiStyle`。
+- 角色 `uiStyle` 支持 `classic`（默认）、`frontline`、`orbital`（星轨剧场）、`ballad`（绯歌序章）和 `chronicle`（月林序章）；缺失或未知值回退至 `classic`。经典风格使用角色 `layout`，其他风格使用角色的可选 `styleLayouts.frontline`、`styleLayouts.orbital`、`styleLayouts.ballad`、`styleLayouts.chronicle`；八类元素 `name/tag/hero/description/detail/eyebrow/login/roster` 均按角色与风格独立保存。全局 `layout/styleLayouts` 仅保留为旧配置兼容与空角色页面的布局：规范化时将其中 `eyebrow/login/roster` 独立复制到缺少对应项的角色布局，已有角色项优先；编辑时不能修改共享回退或 `STYLE_LAYOUTS` 预设。其余未设置项读取对应风格预设，仅实际修改、引用或重置时写入。切换风格不得覆盖任何风格的布局；两组重置都只作用于当前角色、当前风格。引用仅复制来源角色当前风格的 `name/tag/hero/description/detail` 到目标角色当前风格，不切换目标 `uiStyle`。页面标题、标语内容、全局背景、主题强调色与角色卡高度仍是全局设置。
 - 布局位置按视口百分比、缩放按倍数保存；编辑器与登录页复用 `scene.mjs` 和样式入口。当前仅考虑桌面，join 页面固定一屏、不滚动；经典角色列表横向滚动，前线档案、星轨剧场、绯歌序章与月林序章纵向滚动。
 - 登录页读取顺序为 `storage/<世界ID>.json` → `config.json` → 内置 `defaults`，请求不使用缓存；当前页面加载后需刷新才会重新读配置。
 - 编辑器从世界设置 `portrait-login.config` 读取；发布先通过 `FilePicker.implementation.uploadPersistent()` 写公开 JSON，再保存世界设置。不要把世界设置与公开文件视为自动同步或原子写入。
