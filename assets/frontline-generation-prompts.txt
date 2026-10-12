@@ -1,0 +1,58 @@
+前线档案素材生成记录
+日期：2026-10-12
+工具：内置 imagegen，非 CLI/API 回退。
+共同参考概念图：exec-6208e655-1b05-4885-98de-05db1b0e33f5.png
+概念图仅作为视觉参考；以下图片是独立生成的插画资产，不是界面截图或截图裁切。
+下列提示保留实际提交原文。参考和中间输出仅记录文件名，不包含本机绝对路径。
+
+1. frontline-landscape.png
+输出：1536 × 1024，PNG，白色不透明背景。
+输入：共同参考概念图。
+实际提示：
+Use case: stylized-concept. Asset type: standalone background landscape illustration for a character-selection webpage, NOT a UI mockup. Input Image 1 is a visual reference: use ONLY the pale gray mountain-and-ruined-castle vignette in the lower-left area of the reference, below the character text. Reconstruct and expand that exact landscape language into a clean independent 3:2 horizontal illustration, about 1536x1024. Scene: rugged alpine mountain silhouettes, a weathered ruined medieval castle with a single tall slender broken stone tower near the lower center-left, lower ruined walls on a crag, sparse conifer forest and layered rocky ridges along the bottom. Composition: the upper 45 percent is pure clean white negative space, with the tallest tower and mountain tips emerging around the middle of the canvas; the landscape becomes richer and more detailed toward the bottom, all drawn in cool pale silver-gray monochrome. Bottom rocks and forests are solid opaque light-to-medium gray, never transparent, with fine graphite linework, gentle watercolor wash and atmospheric depth. Match the reference's very subtle, restrained cold-gray fantasy cartographic atmosphere, do not turn it into a dark dramatic landscape. Optionally keep one very faint thin circular compass ornament near the right side of the landscape, with no letters or numbers. Preserve a rectangular full-bleed art asset with white background. Exclude absolutely all characters, portraits, faces, names, letters, typography, logos, interface elements, buttons, avatar circles, page header, large diagonal borders, slanted picture panels, yellow accents and watermark. This image must contain only the background landscape illustration and white negative space.
+
+2. frontline-ranger.png
+输出：1024 × 1536，PNG，暗森林不透明背景。
+第一轮输入：共同参考概念图。
+第一轮输出：exec-23c3b917-6a24-4e77-afc8-5a3396282672.png
+第一轮实际提示：
+Use case: identity-preserve.
+Asset type: a standalone high-resolution portrait character illustration for a fantasy login screen.
+Input image 1 is the identity, costume, lighting and rendering reference. Extract and expand ONLY the silver-white-haired female elf ranger visible in the middle of that reference, reconstructing areas covered by interface panels. Create a clean rectangular portrait in a 2:3 aspect ratio, at high resolution.
+Scene/backdrop: only a deep near-black woodland forest background, softly out of focus. The entire rectangular frame must be a continuous character-and-forest image.
+Subject: preserve the exact reference woman's facial identity: an adult pale elf woman with elegant sharp pointed ears, silver-white hair in long fine braids and loose strands, calm intense grey-green eyes looking toward the viewer or slightly toward the viewer's left, sculpted natural face, same expression and fine skin detail. Preserve her moss-green textured cloak, aged dark-silver intricately worked armor plates, leather straps, ornamental clasps, ornate bow and arrows. Keep the existing muted photorealistic cinematic fantasy appearance, detailed natural textures, and cool soft directional illumination against the dark forest. Do not redesign the face, costume or equipment.
+Composition/framing: vertical 2:3. A thigh-up portrait, top of her hair 3%-5% from the top edge. Her face center should be approximately x=52%, y=20% of the image. Show head, shoulders, torso, arms, bow and upper thighs, with natural anatomy. Preserve the reference's three-quarter torso pose and the feeling of the bow crossing the lower foreground. Ensure the subject has sufficient clean margins at the sides so a later website crop can be applied independently.
+Constraints: ONLY the ranger and forest. Absolutely no UI, text, lettering, numbers, watermarks, logos, icons, interface cards, avatars, frames, graphic lines, diagonal cut edges, geometric panels, yellow ornaments or yellow stripes. No white UI background. No new characters. Rectangular full-bleed image.
+
+第二轮输入：第一轮输出。
+第二轮输出：exec-bbdf60cc-48f2-4f93-94d1-adc1822e541f.png，原样复制为 frontline-ranger.png。
+第二轮实际提示：
+Use case: identity-preserve. Edit this existing portrait ONLY to tighten the framing into a closer thigh-up portrait; keep the identical elf woman's face, hair, pointed ears, facial expression, costume, moss-green cloak, dark antique-silver detailed armor, ornate bow, arrows, skin, cool soft lighting, photorealistic cinematic fantasy realism, and dark forest. Vertical 2:3 rectangular composition. Move the camera closer: her head and face must be larger, with top of her hair at y=4% of frame height, center of face at x=52%, y=20%, chin about y=31%, shoulders around y=40%, and the lower edge cutting at the very TOP of the thighs just below the hips rather than above the knees. Show torso, arms, hands and bow in the lower foreground. Reconstruct the complete rectangular dark forest background naturally. Only change framing/camera distance and corresponding crop; do not redesign identity or costume. Absolutely no text, UI, logos, yellow lines, geometric panels, slanted edges, decorative graphics or extra characters.
+
+3. fonts/frontline-black.woff2
+此文件不是 imagegen 产物。
+源字体：本地已安装的完整 Noto Sans SC 可变字体 NotoSansSC-VF.ttf；本轮未下载源字体。
+许可：SIL Open Font License 1.1，许可原文随字体保存在 fonts/OFL.txt。
+许可来源：https://raw.githubusercontent.com/google/fonts/main/ofl/notosanssc/OFL.txt
+工具：fontTools 4.60.2、Brotli 1.2.0。
+方法：固定 wght=900，更新静态字体名称，再编码为 WOFF2；不调用字符子集工具，不移除源字体字符。
+实际转换所用核心代码（路径替换为相对示例）：
+
+from fontTools.ttLib import TTFont
+from fontTools.varLib.instancer import instantiateVariableFont
+
+font = TTFont("NotoSansSC-VF.ttf")
+original_cmap = font.getBestCmap()
+original_glyphs = font.getGlyphOrder()
+instantiateVariableFont(font, {"wght": 900}, inplace=True, optimize=True, updateFontNames=True)
+font.flavor = "woff2"
+font.save("assets/fonts/frontline-black.woff2")
+font.close()
+
+with TTFont("assets/fonts/frontline-black.woff2") as result:
+    assert result.getBestCmap() == original_cmap
+    assert result.getGlyphOrder() == original_glyphs
+    assert "fvar" not in result
+    assert result["OS/2"].usWeightClass == 900
+
+生成时核对结果：31,036 个字形、30,890 个 Unicode 码位，字符映射和字形顺序与源字体一致；无 fvar 可变轴，OS/2.usWeightClass 为 900，family 为 Noto Sans SC Black；WOFF2 文件 3,999,888 字节。
