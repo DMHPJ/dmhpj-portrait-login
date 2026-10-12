@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="zh-CN" class="pl-page">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>前线档案 · 样式预览</title>
+  <link rel="stylesheet" href="./styles/login.css?v=20261012-frontline-2">
+  <style>.pl-stage .pl-native-form :disabled{opacity:1!important}</style>
+</head>
+<body class="pl-active">
+  <main id="join-game" aria-label="登录页样式预览">
+    <section class="pl-native-form" data-pl-item="login" aria-label="登录卡片预览">
+      <h2>启程</h2>
+      <p class="pl-status">样式预览 · 返回登录页后可登录</p>
+      <div class="form-group"><div class="form-fields"><select disabled aria-label="账户选择预览"><option>选择账户</option></select></div></div>
+      <div class="form-group"><div class="form-fields"><input type="password" disabled placeholder="账户密码（未设置可留空）" aria-label="密码输入预览"></div></div>
+      <button type="button" disabled>进入冒险</button>
+    </section>
+  </main>
+  <script type="module">
+    import {defaults,normalize,SERVER_URL} from './scripts/model.mjs';
+    import {createScene,updateScene,element} from './scripts/scene.mjs';
+    const config=normalize(defaults),root=document.querySelector('#join-game');
+    let style='frontline',selectedId=config.characters[0].id;
+    const select=id=>{
+      selectedId=id;
+      for(const character of config.characters)character.uiStyle=style;
+      updateScene(root,config,config.characters.find(character=>character.id===selectedId));
+    };
+    createScene(root,config,{onSelect:select});
+    const tools=element('nav','pl-tools');tools.setAttribute('aria-label','预览导航');
+    const toggle=element('button','','查看经典样式');toggle.type='button';
+    toggle.addEventListener('click',()=>{
+      style=style==='frontline'?'classic':'frontline';
+      toggle.textContent=style==='frontline'?'查看经典样式':'查看前线档案';
+      select(selectedId);
+    });
+    const back=element('a','','返回登录页');back.href=new URL('join',SERVER_URL).href;
+    tools.append(toggle,back);root.querySelector('.pl-header').append(tools);
+    select(selectedId);
+  </script>
+</body>
+</html>
