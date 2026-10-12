@@ -274,7 +274,7 @@ class PortraitConfig extends foundry.applications.api.ApplicationV2 {
     try{
       const file=new File([JSON.stringify(config,null,2)],`${game.world.id}.json`,{type:'application/json'});
       const result=await foundry.applications.apps.FilePicker.implementation.uploadPersistent(ID,'',file,{}, {notify:false});
-      if(!result?.path)throw new Error('配置文件上传失败，请检查Data目录写入权限。');
+      if(!result?.path)throw new Error('配置文件上传失败，请查看具体错误提示，并确认登录状态、上传权限与网络连接。');
       await game.settings.set(ID,'config',config);status.textContent='已发布，刷新登录页即可查看';ui.notifications.info('角色登录页配置已发布。');
     }catch(error){status.textContent=`发布失败：${error.message}`;ui.notifications.error(status.textContent);}finally{this.saving=false;submit.disabled=false;}
   }
