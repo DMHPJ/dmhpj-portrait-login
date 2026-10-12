@@ -1,0 +1,9 @@
+@import url('./scene.css');
+
+html.pl-page,body.pl-active{width:100%;height:100%;overflow:hidden!important;overscroll-behavior:none}
+body.pl-active{display:block!important;background:#0b1015!important;margin:0}
+body.pl-active #main-header,body.pl-active #main-background,body.pl-active #join-game-details,body.pl-active #join-game-world,body.pl-active>.watermark,body.pl-active #watermark{display:none!important}
+body.pl-active #join-game-setup{display:none!important}
+body.pl-active.pl-admin #join-game-setup{display:flex!important;position:fixed;z-index:100;right:35px;top:80px;width:420px;max-height:calc(100vh - 110px);overflow:auto;background:#171d25;box-shadow:0 20px 90px #000;border:1px solid #c8aa71;padding:24px}
+body.pl-active #join-game{position:fixed!important;inset:0!important;display:block!important;width:100vw!important;height:100vh!important;max-width:none!important;min-height:0!important;margin:0!important;padding:0!important;overflow:hidden!important}
+body.pl-active #notifications{z-index:9999!important}
