@@ -9,17 +9,20 @@
     "eyebrow": {
       "x": 5,
       "y": 21,
-      "scale": 1
+      "scale": 0.85,
+      "anchor": "center"
     },
     "login": {
       "x": 74,
       "y": 30,
-      "scale": 1
+      "scale": 0.85,
+      "anchor": "center"
     },
     "roster": {
       "x": 5,
       "y": 70,
-      "scale": 1
+      "scale": 0.85,
+      "anchor": "center"
     }
   },
   "characters": [
@@ -42,12 +45,14 @@
         "name": {
           "x": 5,
           "y": 28,
-          "scale": 1
+          "scale": 0.85,
+          "anchor": "center"
         },
         "tag": {
           "x": 5,
           "y": 40,
-          "scale": 1
+          "scale": 0.85,
+          "anchor": "center"
         },
         "hero": {
           "x": 38,
@@ -57,12 +62,14 @@
         "description": {
           "x": 5,
           "y": 47,
-          "scale": 1
+          "scale": 0.85,
+          "anchor": "center"
         },
         "detail": {
           "x": 5,
           "y": 63,
-          "scale": 1
+          "scale": 0.85,
+          "anchor": "center"
         }
       }
     },
@@ -85,12 +92,14 @@
         "name": {
           "x": 5,
           "y": 28,
-          "scale": 1
+          "scale": 0.85,
+          "anchor": "center"
         },
         "tag": {
           "x": 5,
           "y": 40,
-          "scale": 1
+          "scale": 0.85,
+          "anchor": "center"
         },
         "hero": {
           "x": 38,
@@ -100,12 +109,14 @@
         "description": {
           "x": 5,
           "y": 47,
-          "scale": 1
+          "scale": 0.85,
+          "anchor": "center"
         },
         "detail": {
           "x": 5,
           "y": 63,
-          "scale": 1
+          "scale": 0.85,
+          "anchor": "center"
         }
       }
     },
@@ -128,12 +139,14 @@
         "name": {
           "x": 5,
           "y": 28,
-          "scale": 1
+          "scale": 0.85,
+          "anchor": "center"
         },
         "tag": {
           "x": 5,
           "y": 40,
-          "scale": 1
+          "scale": 0.85,
+          "anchor": "center"
         },
         "hero": {
           "x": 38,
@@ -143,12 +156,14 @@
         "description": {
           "x": 5,
           "y": 47,
-          "scale": 1
+          "scale": 0.85,
+          "anchor": "center"
         },
         "detail": {
           "x": 5,
           "y": 63,
-          "scale": 1
+          "scale": 0.85,
+          "anchor": "center"
         }
       }
     },
@@ -171,12 +186,14 @@
         "name": {
           "x": 5,
           "y": 28,
-          "scale": 1
+          "scale": 0.85,
+          "anchor": "center"
         },
         "tag": {
           "x": 5,
           "y": 40,
-          "scale": 1
+          "scale": 0.85,
+          "anchor": "center"
         },
         "hero": {
           "x": 38,
@@ -186,12 +203,14 @@
         "description": {
           "x": 5,
           "y": 47,
-          "scale": 1
+          "scale": 0.85,
+          "anchor": "center"
         },
         "detail": {
           "x": 5,
           "y": 63,
-          "scale": 1
+          "scale": 0.85,
+          "anchor": "center"
         }
       }
     },
@@ -214,12 +233,14 @@
         "name": {
           "x": 5,
           "y": 28,
-          "scale": 1
+          "scale": 0.85,
+          "anchor": "center"
         },
         "tag": {
           "x": 5,
           "y": 40,
-          "scale": 1
+          "scale": 0.85,
+          "anchor": "center"
         },
         "hero": {
           "x": 38,
@@ -229,12 +250,14 @@
         "description": {
           "x": 5,
           "y": 47,
-          "scale": 1
+          "scale": 0.85,
+          "anchor": "center"
         },
         "detail": {
           "x": 5,
           "y": 63,
-          "scale": 1
+          "scale": 0.85,
+          "anchor": "center"
         }
       }
     }

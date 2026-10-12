@@ -13,6 +13,7 @@ export function revealCard(button){
 }
 export function applyLayout(node,layout){
   node.style.left=`${layout.x}%`;node.style.top=`${layout.y}%`;node.style.transform=`scale(${layout.scale})`;
+  node.style.transformOrigin=layout.anchor==='center'?'center':'top left';
   for(const dimension of ['width','height']){
     if(layout[dimension])node.style.setProperty(dimension,`${layout[dimension]}px`,'important');
     else node.style.removeProperty(dimension);

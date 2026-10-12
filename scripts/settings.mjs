@@ -7,7 +7,7 @@ function loadEditorStyles(){
   if(editorStyles)return editorStyles;
   // Load a matching stylesheet even when the world still holds the old module CSS.
   const link=document.createElement('link');link.rel='stylesheet';
-  link.href=new URL('../styles/settings.css?v=20261012-chronicle-1',import.meta.url).href;
+  link.href=new URL('../styles/settings.css?v=20261012-chronicle-2',import.meta.url).href;
   editorStyles=new Promise((resolve,reject)=>{
     link.addEventListener('load',resolve,{once:true});
     link.addEventListener('error',()=>{link.remove();editorStyles=null;reject(new Error('登录页编辑器样式加载失败，请刷新后重试。'));},{once:true});
@@ -117,7 +117,16 @@ class PortraitConfig extends foundry.applications.api.ApplicationV2 {
     for(const [axis,position] of Object.entries({x:horizontal,y:vertical,xy:corner}))Object.assign(frame.querySelector(`[data-resize="${axis}"]`).style,{left:`${position.x}px`,top:`${position.y}px`});
   }
   selectCharacter(id){this.focusCharacter=this.canvas.contains(document.activeElement)&&document.activeElement.matches('.pl-card');this.read();this.selectedId=id;this.render({force:true});}
-  itemLayout(key){return getSceneLayout(this.draft,this.character,key,{editable:true});}
+  itemLayout(key){
+    const layout=getSceneLayout(this.draft,this.character,key,{editable:true});
+    if(layout.anchor==='center'){
+      // Editing uses the visible top-left corner so dragging and resizing do not jump.
+      const rect=this.canvas.querySelector(`[data-pl-item="${key}"]`).getBoundingClientRect(),bounds=this.canvas.getBoundingClientRect();
+      layout.x=(rect.left-bounds.left)/bounds.width*100;layout.y=(rect.top-bounds.top)/bounds.height*100;
+      delete layout.anchor;
+    }
+    return layout;
+  }
   startDrag(event){
     if(event.button!==0||!event.isPrimary||this.editingText)return;
     const handle=event.target.closest('[data-resize]');
@@ -141,8 +150,8 @@ class PortraitConfig extends foundry.applications.api.ApplicationV2 {
       const limit=this.snapToGrid?Math.floor(max/SNAP_STEP)*SNAP_STEP:max;
       return Math.max(min,Math.min(limit,value))/extent*100;
     };
-    layout.x=place(drag.initial.x,dx,rect.width,drag.bounds.width);
-    layout.y=place(drag.initial.y,dy,rect.height,drag.bounds.height);
+    layout.x=place((drag.rect.left-drag.bounds.left)/drag.bounds.width*100,dx,rect.width,drag.bounds.width);
+    layout.y=place((drag.rect.top-drag.bounds.top)/drag.bounds.height*100,dy,rect.height,drag.bounds.height);
     applyLayout(drag.node,layout);
     this.refreshResizeFrame();
   }

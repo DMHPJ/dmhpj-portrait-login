@@ -6,37 +6,39 @@ export const GLOBAL_ITEMS = ['eyebrow','login','roster'];
 export const DEFAULT_UI_STYLE = 'classic';
 export const UI_STYLES = [{id:DEFAULT_UI_STYLE,label:'经典（默认）'},{id:'frontline',label:'前线档案'},{id:'orbital',label:'星轨剧场'},{id:'ballad',label:'绯歌序章'},{id:'chronicle',label:'月林序章'}];
 export const DEFAULT_LAYOUT = {
-  name:{x:5,y:28,scale:1},tag:{x:5,y:40,scale:1},hero:{x:38,y:12,scale:1},
-  description:{x:5,y:47,scale:1},detail:{x:5,y:63,scale:1},
-  eyebrow:{x:5,y:21,scale:1},login:{x:74,y:30,scale:1},roster:{x:5,y:70,scale:1}
+  name:{x:5,y:28,scale:.85,anchor:'center'},tag:{x:5,y:40,scale:.85,anchor:'center'},hero:{x:38,y:12,scale:1},
+  description:{x:5,y:47,scale:.85,anchor:'center'},detail:{x:5,y:63,scale:.85,anchor:'center'},
+  eyebrow:{x:5,y:21,scale:.85,anchor:'center'},login:{x:74,y:30,scale:.85,anchor:'center'},roster:{x:5,y:70,scale:.85,anchor:'center'}
 };
 export const STYLE_LAYOUTS = {
   classic:DEFAULT_LAYOUT,
   frontline:{
-    name:{x:13.4,y:28.8,scale:1},tag:{x:13.4,y:42.8,scale:1},hero:{x:37.5,y:6,scale:1},
-    description:{x:13.4,y:50,scale:1},detail:{x:13.4,y:56.5,scale:1},
-    eyebrow:{x:13.4,y:26.6,scale:1},login:{x:74.6,y:42.5,scale:1},roster:{x:1.35,y:14.3,scale:1}
+    name:{x:13.4,y:28.8,scale:.85,anchor:'center'},tag:{x:13.4,y:42.8,scale:.85,anchor:'center'},hero:{x:37.5,y:6,scale:1},
+    description:{x:13.4,y:50,scale:.85,anchor:'center'},detail:{x:13.4,y:56.5,scale:.85,anchor:'center'},
+    eyebrow:{x:13.4,y:26.6,scale:.85,anchor:'center'},login:{x:74.6,y:42.5,scale:.85,anchor:'center'},roster:{x:1.35,y:14.3,scale:.85,anchor:'center'}
   },
   orbital:{
-    name:{x:70.9,y:18.8,scale:1},tag:{x:70.9,y:29.2,scale:1},hero:{x:16,y:4,scale:1},
-    description:{x:70.9,y:36.2,scale:1},detail:{x:70.9,y:46.2,scale:1},
-    eyebrow:{x:2.7,y:93.3,scale:1},login:{x:70.9,y:52.3,scale:1},roster:{x:2.5,y:14.3,scale:1}
+    name:{x:70.9,y:18.8,scale:.85,anchor:'center'},tag:{x:70.9,y:29.2,scale:.85,anchor:'center'},hero:{x:16,y:4,scale:1},
+    description:{x:70.9,y:36.2,scale:.85,anchor:'center'},detail:{x:70.9,y:46.2,scale:.85,anchor:'center'},
+    eyebrow:{x:2.7,y:93.3,scale:.85,anchor:'center'},login:{x:70.9,y:52.3,scale:.85,anchor:'center'},roster:{x:2.5,y:14.3,scale:.85,anchor:'center'}
   },
   ballad:{
-    name:{x:71.4,y:9.5,scale:1},tag:{x:71.4,y:21,scale:1},hero:{x:22,y:0,scale:1},
-    description:{x:71.4,y:28.5,scale:1},detail:{x:71.4,y:40.5,scale:1},
-    eyebrow:{x:6,y:16,scale:1},login:{x:71.4,y:49.8,scale:1},roster:{x:6,y:20,scale:1}
+    name:{x:71.4,y:9.5,scale:.85,anchor:'center'},tag:{x:71.4,y:21,scale:.85,anchor:'center'},hero:{x:22,y:0,scale:1},
+    description:{x:71.4,y:28.5,scale:.85,anchor:'center'},detail:{x:71.4,y:40.5,scale:.85,anchor:'center'},
+    eyebrow:{x:6,y:16,scale:.85,anchor:'center'},login:{x:71.4,y:49.8,scale:.85,anchor:'center'},roster:{x:6,y:20,scale:.85,anchor:'center'}
   },
   chronicle:{
-    name:{x:3.5,y:15.5,scale:1},tag:{x:4,y:43.5,scale:1},hero:{x:26,y:0,scale:1},
-    description:{x:5,y:50,scale:1},detail:{x:5,y:60,scale:1},
-    eyebrow:{x:3.5,y:9.5,scale:1},login:{x:3,y:81,scale:1},roster:{x:82.5,y:8.5,scale:1}
+    name:{x:3.5,y:15.5,scale:.85,anchor:'center'},tag:{x:4,y:43.5,scale:.85,anchor:'center'},hero:{x:26,y:0,scale:1},
+    description:{x:5,y:50,scale:.85,anchor:'center'},detail:{x:5,y:60,scale:.85,anchor:'center'},
+    eyebrow:{x:3.5,y:9.5,scale:.85,anchor:'center'},login:{x:3,y:81,scale:.85,anchor:'center'},roster:{x:82.5,y:8.5,scale:.85,anchor:'center'}
   }
 };
 function normalizeLayout(source,keys,preset=DEFAULT_LAYOUT){
   const number=(value,fallback,min,max)=>typeof value==='number'&&Number.isFinite(value)?Math.min(max,Math.max(min,value)):fallback;
   return Object.fromEntries(keys.map(key=>{
     const v=source?.[key],d=preset[key],layout={x:number(v?.x,d.x,-100,100),y:number(v?.y,d.y,-100,100),scale:number(v?.scale,d.scale,.25,3)};
+    // Only missing items inherit the centered preset; saved layouts keep their original origin.
+    if((v??d).anchor==='center')layout.anchor='center';
     for(const dimension of ['width','height'])if(typeof v?.[dimension]==='number'&&Number.isFinite(v[dimension])&&v[dimension]>0)layout[dimension]=number(v[dimension],null,1,10000);
     return [key,layout];
   }));
@@ -64,7 +66,7 @@ export function getSceneLayout(config,character,key,{editable=false}={}){
 }
 export function setSceneLayout(config,character,key,layout){
   const target=getSceneLayout(config,character,key,{editable:true});
-  delete target.width;delete target.height;Object.assign(target,layout);
+  delete target.width;delete target.height;delete target.anchor;Object.assign(target,layout);
 }
 export const text = (v, max=1000) => String(v??'').replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f]/g,'').slice(0,max);
 export const escape = v => text(v,10000).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));

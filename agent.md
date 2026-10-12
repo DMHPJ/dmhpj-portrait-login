@@ -47,6 +47,7 @@
 - 登录脚本依赖 `#join-game`、`#join-game-form`、`[name="userid"]`、`[name="password"]`、账户选项的 `disabled` 状态；升级兼容性时必须在目标版本实测这些约定。
 - 角色卡导致账户变化时清空密码，不能选中已禁用的在线账户。维持手动选择账户、服务器管理入口和原始界面回退。
 - `portraitLoginOff` 查询参数只要存在就跳过增强；常用写法为 `?portraitLoginOff=1`。
+- 真实 join 表单带有 `.application.standard-form.framed` 类，受 Foundry 的最大宽度限制，提交按钮位于 `.form-footer` 内。月林序章的横向底栏必须解除原生 `max-width` 并将该 footer 放在第 4 列；验证时检查真实表单，不能仅以编辑器的 `section.pl-native-form` 代替。
 - 页面由 Foundry 动态渲染。保留重复挂载检查、监听器清理和异常时撤销主题的处理；新增观察行为应避免自身 DOM 更新触发循环。
 
 ### 配置与公开数据
@@ -70,7 +71,7 @@
 - `paintArt()` 只对取自 `@/assets/party.png` 的示例分栏使用风格素材：`frontline` 的示例游侠（`strip === 0`）使用 `frontline-ranger.png`；`orbital` 与 `ballad` 的示例游侠大立绘使用透明的 `orbital-ranger.png`，头像使用 `frontline-ranger.png`；`chronicle` 的示例游侠大立绘与头像使用独立透明素材 `chronicle-ranger.png`；`ballad` 与 `chronicle` 的示例诗人（`strip === 4`）使用透明的 `ballad-bard.png`。其他示例沿用合影分栏，不改配置图片路径，不替换用户自定义图片，经典风格仍使用原素材；星轨剧场和绯歌序章的独立大立绘使用 `contain` 保持完整，月林序章的示例大立绘按半身构图展示，自定义独立大立绘保持 `contain` 和配置的垂直位置。
 - 月林序章的 `chronicle-backdrop.png` 是独立无文字插画底图；角色、文字、头像列表和登录控件由页面渲染。用户设置的背景仍由 `assetURL()` 解析，在中央人物区域显示。
 - 保持 `.pl-*` 命名，登录样式尽量限制在 `body.pl-active` 下。前线档案、星轨剧场、绯歌序章与月林序章规则分别限定在 `[data-pl-style="frontline"]`、`[data-pl-style="orbital"]`、`[data-pl-style="ballad"]` 和 `[data-pl-style="chronicle"]`，场景与编辑器根节点随角色更新该属性。不要让主题样式影响其他风格或正常世界界面。
-- 编辑器打开前会加载带版本标识的设置样式，以兼容世界页面残留的旧样式。修改这些样式时同步更新 `settings.mjs` 和 `preview.html` 的样式 URL、`settings.css` 与 `login.css` 的场景导入版本，以及 `scene.css` 中对应风格的导入版本（当前主入口与月林序章为 `20261012-chronicle-1`，前线档案、星轨剧场与绯歌序章保留各自版本）；用原生 `ApplicationV2` 检查新脚本与旧样式共存时的布局，不能只验证独立预览或 join 页面。
+- 编辑器打开前会加载带版本标识的设置样式，以兼容世界页面残留的旧样式。修改这些样式时同步更新 `settings.mjs` 和 `preview.html` 的样式 URL、`settings.css` 与 `login.css` 的场景导入版本，以及 `scene.css` 中对应风格的导入版本（当前主入口与月林序章为 `20261012-chronicle-2`，前线档案、星轨剧场与绯歌序章保留各自版本）；用原生 `ApplicationV2` 检查新脚本与旧样式共存时的布局，不能只验证独立预览或 join 页面。
 - 修改交互或布局时保留角色按钮的可访问名称、`aria-pressed`、状态播报、键盘左右切换、前线档案、星轨剧场、绯歌序章和月林序章的上下切换、可见焦点与减少动画支持。
 - 界面文案使用简明中文，说明用户可执行的操作或当前状态；不要把调试过程和实现细节放进产品文案。
 
