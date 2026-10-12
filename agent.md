@@ -20,6 +20,9 @@
 | `scripts/scene.mjs` | 登录页与全屏编辑器共用的场景、文本和布局渲染 |
 | `styles/scene.css` | 共用布局、主题变量、角色卡、减少动画适配与风格样式导入 |
 | `styles/frontline.css` | 前线档案的场景、角色列表、登录表单与编辑器样式 |
+| `styles/orbital.css` | 星轨剧场的景窗、星轨、立绘、角色列表、登录表单与编辑器样式 |
+| `styles/ballad.css` | 绯歌序章的朱红角色列表、立绘、宋体介绍、登录表单、金色边饰与编辑器样式 |
+| `styles/chronicle.css` | 月林序章的左侧朱红简介、中央花窗立绘、右侧头像列表、底部横向登录表单与编辑器样式 |
 | `styles/archive/2026-10-12/` | 经典风格 CSS 快照，仅供归档比较，不参与运行加载，不覆盖已有归档 |
 | `styles/login.css` | 登录页全屏与禁用页面滚动、原生界面覆盖 |
 | `styles/settings.css` | 世界内配置窗口样式 |
@@ -49,9 +52,9 @@
 ### 配置与公开数据
 
 - 配置入口统一调用 `normalize()`。配置结构发生变化时检查默认数据、编辑器读写、导入导出、发布和登录渲染，避免字段只在某一端生效。
-- 默认示例同时存在于 `model.mjs` 的 `defaults` 和根目录 `config.json`。有意修改共同默认内容时同步两处。
-- 角色 `uiStyle` 支持 `classic`（默认）和 `frontline`；缺失或未知值回退至 `classic`。经典风格保留原 `layout`：全局 `eyebrow/login/roster` 为共享布局，角色 `name/tag/hero/description/detail` 为独立布局。前线档案分别使用全局与角色的可选 `styleLayouts.frontline`，未设置的项读取 `STYLE_LAYOUTS.frontline`，仅实际修改、引用或重置布局时写入。切换风格不得覆盖任何风格的布局；重置只作用于当前风格；引用把来源角色当前风格布局复制到目标角色当前风格，不切换目标 `uiStyle`。
-- 布局位置按视口百分比、缩放按倍数保存；编辑器与登录页复用 `scene.mjs` 和样式入口。当前仅考虑桌面，join 页面固定一屏、不滚动；经典角色列表横向滚动，前线档案纵向滚动。
+- 默认示例同时存在于 `model.mjs` 的 `defaults` 和根目录 `config.json`，均保留 `classic`。有意修改共同默认内容时同步两处。静态 `preview.html` 默认展示月林序章的游侠，通过 `style` 查询参数或风格下拉框对比五种风格，不修改世界配置。
+- 角色 `uiStyle` 支持 `classic`（默认）、`frontline`、`orbital`（星轨剧场）、`ballad`（绯歌序章）和 `chronicle`（月林序章）；缺失或未知值回退至 `classic`。经典风格保留原 `layout`：全局 `eyebrow/login/roster` 为共享布局，角色 `name/tag/hero/description/detail` 为独立布局。前线档案、星轨剧场、绯歌序章与月林序章分别使用全局与角色的可选 `styleLayouts.frontline`、`styleLayouts.orbital`、`styleLayouts.ballad`、`styleLayouts.chronicle`，未设置的项读取各自 `STYLE_LAYOUTS` 预设，仅实际修改、引用或重置布局时写入。切换风格不得覆盖任何风格的布局；重置只作用于当前风格；引用把来源角色当前风格布局复制到目标角色当前风格，不切换目标 `uiStyle`。
+- 布局位置按视口百分比、缩放按倍数保存；编辑器与登录页复用 `scene.mjs` 和样式入口。当前仅考虑桌面，join 页面固定一屏、不滚动；经典角色列表横向滚动，前线档案、星轨剧场、绯歌序章与月林序章纵向滚动。
 - 登录页读取顺序为 `storage/<世界ID>.json` → `config.json` → 内置 `defaults`，请求不使用缓存；当前页面加载后需刷新才会重新读配置。
 - 编辑器从世界设置 `portrait-login.config` 读取；发布先通过 `FilePicker.implementation.uploadPersistent()` 写公开 JSON，再保存世界设置。不要把世界设置与公开文件视为自动同步或原子写入。
 - `storage/` 是需要保留的用户数据。不要清空、覆盖其他世界文件，或把本机真实世界配置加入示例。
@@ -61,12 +64,14 @@
 ### 文本、资源与样式
 
 - 动态文字使用 `textContent`；插入配置窗口 HTML 的用户值使用共享 `escape()`。不要直接拼接未转义的用户内容。
+- 月林序章将含中点的角色姓名分行展示，配置中的原始姓名保持不变；进入文字编辑时先从配置恢复原始 `textContent`，保留中点和原有换行。
 - 图片地址通过 `assetURL()` 处理：`@/` 相对模组目录，其他相对路径基于 Foundry 服务根路径；允许 HTTP(S)，拒绝本机盘符与危险协议。保持反向代理子路径下的 URL 解析方式。
 - `strip` 为 `0–4` 时使用五等分示例图；自定义图片应设为 `null`。显式提供 `hero` 时大立绘不分栏；`position: 0` 是有效值。
-- `paintArt()` 仅在 `frontline` 且当前图片路径为 `@/assets/party.png`、`strip === 0` 时使用高清 `frontline-ranger.png`；不改配置图片路径，不替换用户自定义图片，经典风格仍使用原素材。
-- 保持 `.pl-*` 命名，登录样式尽量限制在 `body.pl-active` 下。前线档案规则限定在 `[data-pl-style="frontline"]`，场景与编辑器根节点随角色更新该属性。不要让主题样式影响经典风格或正常世界界面。
-- 编辑器打开前会加载带版本标识的设置样式，以兼容世界页面残留的旧样式。修改这些样式时同步更新 `settings.mjs` 的样式 URL、`settings.css` 与 `login.css` 的场景导入版本，以及 `scene.css` 的风格导入版本（当前为 `20261012-frontline-2`）；用原生 `ApplicationV2` 检查新脚本与旧样式共存时的布局，不能只验证独立预览或 join 页面。
-- 修改交互或布局时保留角色按钮的可访问名称、`aria-pressed`、状态播报、键盘左右切换、前线档案的上下切换、可见焦点与减少动画支持。
+- `paintArt()` 只对取自 `@/assets/party.png` 的示例分栏使用风格素材：`frontline` 的示例游侠（`strip === 0`）使用 `frontline-ranger.png`；`orbital` 与 `ballad` 的示例游侠大立绘使用透明的 `orbital-ranger.png`，头像使用 `frontline-ranger.png`；`chronicle` 的示例游侠大立绘与头像使用独立透明素材 `chronicle-ranger.png`；`ballad` 与 `chronicle` 的示例诗人（`strip === 4`）使用透明的 `ballad-bard.png`。其他示例沿用合影分栏，不改配置图片路径，不替换用户自定义图片，经典风格仍使用原素材；星轨剧场和绯歌序章的独立大立绘使用 `contain` 保持完整，月林序章的示例大立绘按半身构图展示，自定义独立大立绘保持 `contain` 和配置的垂直位置。
+- 月林序章的 `chronicle-backdrop.png` 是独立无文字插画底图；角色、文字、头像列表和登录控件由页面渲染。用户设置的背景仍由 `assetURL()` 解析，在中央人物区域显示。
+- 保持 `.pl-*` 命名，登录样式尽量限制在 `body.pl-active` 下。前线档案、星轨剧场、绯歌序章与月林序章规则分别限定在 `[data-pl-style="frontline"]`、`[data-pl-style="orbital"]`、`[data-pl-style="ballad"]` 和 `[data-pl-style="chronicle"]`，场景与编辑器根节点随角色更新该属性。不要让主题样式影响其他风格或正常世界界面。
+- 编辑器打开前会加载带版本标识的设置样式，以兼容世界页面残留的旧样式。修改这些样式时同步更新 `settings.mjs` 和 `preview.html` 的样式 URL、`settings.css` 与 `login.css` 的场景导入版本，以及 `scene.css` 中对应风格的导入版本（当前主入口与月林序章为 `20261012-chronicle-1`，前线档案、星轨剧场与绯歌序章保留各自版本）；用原生 `ApplicationV2` 检查新脚本与旧样式共存时的布局，不能只验证独立预览或 join 页面。
+- 修改交互或布局时保留角色按钮的可访问名称、`aria-pressed`、状态播报、键盘左右切换、前线档案、星轨剧场、绯歌序章和月林序章的上下切换、可见焦点与减少动画支持。
 - 界面文案使用简明中文，说明用户可执行的操作或当前状态；不要把调试过程和实现细节放进产品文案。
 
 ### 安装与恢复
